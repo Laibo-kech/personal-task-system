@@ -1,0 +1,16 @@
+/* 同源于项目管理需求库；业务字段和操作由各自系统提供。 */
+.wx-library-scroll{position:relative;flex:1;min-width:0;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.wx-library-grid{min-width:100%;font-size:12px;color:var(--wx-text)}
+.wx-library-head{position:sticky;top:0;z-index:5;background:var(--wx-soft);border-bottom:1px solid var(--wx-border);height:42px;min-height:42px;font-size:12px;font-weight:500;color:var(--wx-muted)}
+.wx-library-head>span{position:relative;display:flex;align-items:center;gap:7px;min-width:0;padding:0 14px;background:var(--wx-soft);font-weight:500}
+.wx-library-row{min-height:42px;border-bottom:1px solid var(--wx-border);background:var(--wx-surface)}
+.wx-library-row:hover{background:var(--wx-soft)}
+.wx-library-row.is-selected{background:var(--wx-brand-soft)}
+.wx-library-cell{min-width:0;overflow-wrap:anywhere;padding:9px 14px;font-size:12px}
+.wx-library-head .column-resizer,
+.wx-library-head .sop-column-resizer,
+.wx-library-head .configurable-column-head>i{position:absolute;right:0;top:0;bottom:0;width:8px;min-width:8px;max-width:8px;height:auto;padding:0;min-height:0;border:0;border-right:2px solid var(--wx-border);border-radius:0;background:transparent;box-shadow:none;cursor:col-resize;touch-action:none;user-select:none}
+.wx-library-head .column-resizer:hover,
+.wx-library-head .sop-column-resizer:hover,
+.wx-library-head .configurable-column-head>i:hover{background:var(--wx-brand-soft);border-color:var(--wx-brand)}
+.wx-library-scroll:focus-visible{outline:2px solid var(--wx-brand);outline-offset:-2px}

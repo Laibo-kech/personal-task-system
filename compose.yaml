@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?请在 .env 设置至少 12 位密码}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      TRUST_PROXY_HOPS: ${TRUST_PROXY_HOPS:-0}
+    volumes:
+      - task-data:/data
+volumes:
+  task-data:

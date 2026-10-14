@@ -1,0 +1,914 @@
+/*
+ * Minimal workstation visual layer.
+ * This file intentionally changes presentation only. Business components,
+ * event handlers and data contracts remain owned by the existing modules.
+ */
+
+:root {
+  --bg: #f8f8f6;
+  --sidebar: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #f3f3f0;
+  --panel: #ffffff;
+  --hover: #f3f3f0;
+  --line: #e3e3de;
+  --line-dark: #d2d2cc;
+  --grid-line: #e8e8e3;
+  --text: #141413;
+  --muted: #696966;
+  --faint: #979793;
+  --accent: #a85f45;
+  --accent-soft: #f2e6e1;
+  --success: #347a55;
+  --warning: #aa721d;
+  --danger: #b84c46;
+  --blue: #3478c9;
+  --shadow: 0 16px 42px rgba(20, 20, 18, 0.1);
+  --workspace-max: 1500px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  color: var(--text);
+  background: #efefec;
+}
+
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline-color: color-mix(in srgb, var(--accent) 52%, transparent);
+}
+
+#root .workspace {
+  grid-template-columns: 250px minmax(0, 1fr);
+  border-color: var(--line-dark);
+  background: var(--bg);
+  box-shadow: 0 0 0 1px rgba(20, 20, 18, 0.02);
+}
+
+#root .sidebar {
+  padding: 18px 14px 12px;
+  border-right-color: var(--line);
+  background: var(--sidebar);
+}
+
+#root .sidebar-brand {
+  height: 54px;
+  gap: 11px;
+  padding: 0 8px 14px;
+}
+
+#root .brand-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #141413;
+  box-shadow: none;
+}
+
+#root .sidebar-brand b,
+#root .login-brand b {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+#root .sidebar-brand small,
+#root .login-brand small {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+#root .primary-nav {
+  gap: 3px;
+  padding: 9px 0 15px;
+}
+
+#root .primary-nav button,
+#root .stats-nav {
+  min-height: 36px;
+  border: 0;
+  border-radius: 5px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 11px;
+  font-weight: 800;
+  transition: color 120ms ease, background-color 120ms ease,
+    transform 120ms ease;
+}
+
+#root .primary-nav button:hover,
+#root .stats-nav:hover {
+  color: var(--text);
+  background: var(--surface-soft);
+}
+
+#root .primary-nav button.active,
+#root .stats-nav.active {
+  color: #ffffff;
+  background: #151514;
+  box-shadow: 0 2px 6px rgba(20, 20, 18, 0.14);
+}
+
+#root .primary-nav button.active svg,
+#root .stats-nav.active svg {
+  color: currentColor;
+}
+
+#root .nav-folder-children {
+  border-left-color: var(--line);
+}
+
+#root .nav-folder-children button {
+  min-height: 31px;
+  font-size: 10px;
+}
+
+#root .sidebar-lists {
+  padding-top: 14px;
+}
+
+#root .sidebar-title {
+  min-height: 32px;
+  color: var(--muted);
+  font-size: 9px;
+  text-transform: none;
+}
+
+#root .mode-select {
+  height: 32px;
+  margin: 0 3px 7px;
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+#root .list-nav {
+  gap: 2px;
+}
+
+#root .list-nav button,
+#root .sortable-list {
+  min-height: 34px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 10px;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+#root .list-nav button:hover,
+#root .sortable-list:hover {
+  background: var(--surface-soft);
+}
+
+#root .list-nav button.active,
+#root .sortable-list.active {
+  color: var(--text);
+  background: #eeeeeb;
+  box-shadow: inset 2px 0 0 #151514;
+}
+
+#root .sidebar-footer {
+  padding-top: 10px;
+  border-top-color: var(--line);
+  background: var(--sidebar);
+}
+
+#root .sidebar-user,
+#root .sidebar-settings-button {
+  border-radius: 4px;
+}
+
+#root .sidebar-settings-button:hover,
+#root .sidebar-settings-button.active {
+  border-color: transparent;
+  background: var(--surface-soft);
+}
+
+#root .main-panel {
+  padding: 0 24px 24px;
+  background: var(--bg);
+}
+
+#root .page-header {
+  min-height: 72px;
+  border-bottom-color: var(--line);
+  background: var(--bg);
+}
+
+#root .page-header h1 {
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 900;
+}
+
+#root .page-header span,
+#root .header-clock {
+  color: var(--muted);
+}
+
+#root .header-clock {
+  min-width: 180px;
+  font-size: 11px;
+}
+
+#root .header-clock b {
+  color: var(--text);
+  font-weight: 900;
+}
+
+#root .icon-only {
+  border-radius: 4px;
+}
+
+#root .icon-only:hover {
+  border-color: var(--line);
+  background: var(--surface-soft);
+}
+
+#root .quick-add {
+  width: min(610px, 48%);
+  min-height: 38px;
+  margin: 0 0 0 8px;
+  padding: 5px 5px 5px 11px;
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+#root .quick-add textarea {
+  min-height: 26px;
+  overflow-y: hidden;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+#root :is(
+  .quick-add button,
+  .toolbar-actions button,
+  .task-modal footer button,
+  .side-panel footer button,
+  .small-dialog footer button,
+  .primary-button,
+  .secondary-button,
+  .danger-button
+) {
+  min-height: 30px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 850;
+  transition: background-color 120ms ease, border-color 120ms ease,
+    color 120ms ease, transform 120ms ease;
+}
+
+#root :is(.primary-button, .quick-add button:not(.clipboard-button)) {
+  border-color: #151514;
+  color: #ffffff;
+  background: #151514;
+}
+
+#root :is(.primary-button, .quick-add button:not(.clipboard-button)):hover {
+  background: #2b2b29;
+}
+
+#root .quick-add > svg {
+  color: var(--accent);
+}
+
+#root .database-surface {
+  border-color: var(--line-dark);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+#root .template-bar {
+  min-height: 39px;
+  padding: 5px 9px;
+  background: #f7f7f4;
+}
+
+#root .template-bar button,
+#root .sort-control,
+#root .search-field,
+#root .toolbar-actions button {
+  border-radius: 4px;
+}
+
+#root .template-bar > button {
+  border-color: #151514;
+  background: #151514;
+}
+
+#root .database-toolbar {
+  min-height: 43px;
+  gap: 8px;
+  padding: 6px 9px;
+}
+
+#root .search-field {
+  height: 29px;
+  min-width: 220px;
+  max-width: 360px;
+  flex: 1 1 220px;
+  background: #f7f7f4;
+}
+
+#root .toolbar-actions {
+  min-width: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+#root .toolbar-actions > * {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+#root .toolbar-actions button {
+  width: auto;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+#root .toolbar-actions button.is-active {
+  border-color: #151514;
+  color: #151514;
+  background: #eeeeeb;
+}
+
+#root .task-table-head {
+  min-height: 34px;
+  color: #686864;
+  background: #f0f0ed;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+#root .task-table-head > span,
+#root .task-row > * {
+  padding-inline: 8px;
+  border-right-color: var(--grid-line);
+}
+
+#root .task-row {
+  min-height: 47px;
+  border-bottom-color: var(--grid-line);
+  background: var(--surface);
+  font-size: 10px;
+  font-weight: 700;
+  transition: background-color 150ms linear, opacity 180ms linear,
+    transform 180ms linear;
+}
+
+#root .task-row:hover {
+  background: #f8f8f5;
+}
+
+#root .task-row[style*="--row-fill"] {
+  background: color-mix(in srgb, var(--row-fill) 22%, var(--surface));
+}
+
+#root .task-row[style*="--row-fill"]:hover {
+  background: color-mix(in srgb, var(--row-fill) 30%, var(--surface));
+}
+
+#root .task-data-cell[style*="--cell-fill"] {
+  background: color-mix(in srgb, var(--cell-fill) 22%, transparent);
+}
+
+#root .task-row.done {
+  color: #62625e;
+  background: #e9e9e5;
+}
+
+#root .task-row.done:hover {
+  background: #e2e2dd;
+}
+
+#root .title-cell strong {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+#root .task-check {
+  width: 16px;
+  height: 16px;
+  border-width: 1.5px;
+}
+
+#root :is(.status-pill, .field-pill, .tag-cell > span) {
+  min-height: 21px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+#root .database-footer {
+  min-height: 36px;
+  background: #f7f7f4;
+}
+
+#root .pagination-controls button {
+  width: 27px;
+  height: 27px;
+  border-radius: 4px;
+}
+
+#root :is(
+  .list-system-workspace,
+  .settings-workspace,
+  .calendar-system-page,
+  .sop-workspace,
+  .node-workspace
+) {
+  margin-top: 10px;
+  padding-top: 0;
+}
+
+#root :is(
+  .list-system-tabs,
+  .settings-tabs,
+  .calendar-system-page .system-page-tabs,
+  .sop-tabs,
+  .node-tabs
+) {
+  min-height: 45px;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  backdrop-filter: none;
+}
+
+#root :is(
+  .list-system-tabs,
+  .settings-tabs,
+  .calendar-system-page .system-page-tabs,
+  .sop-tabs,
+  .node-tabs
+) button {
+  height: 34px;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 4px;
+  color: var(--muted);
+  background: transparent;
+  box-shadow: none;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+#root :is(
+  .list-system-tabs,
+  .settings-tabs,
+  .calendar-system-page .system-page-tabs,
+  .sop-tabs,
+  .node-tabs
+) button:hover {
+  color: var(--text);
+  background: #eeeeeb;
+  box-shadow: none;
+}
+
+#root :is(
+  .list-system-tabs,
+  .settings-tabs,
+  .calendar-system-page .system-page-tabs,
+  .sop-tabs,
+  .node-tabs
+) button.active {
+  color: #ffffff;
+  background: #151514;
+  box-shadow: none;
+}
+
+#root :is(.sop-tabs, .node-tabs) button.active em {
+  color: #151514;
+  background: #ffffff;
+}
+
+#root :is(
+  .stats-grid,
+  .stats-bands,
+  .settings-section,
+  .management-editor,
+  .management-list,
+  .sop-panel,
+  .sop-table,
+  .node-panel,
+  .node-table,
+  .calendar-view,
+  .calendar-list-panel,
+  .unscheduled-panel,
+  .document-panel,
+  .document-editor
+) {
+  border-color: var(--line-dark);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+#root :is(
+  .sop-table-head,
+  .node-table-head,
+  .log-table-head,
+  .management-table-head,
+  .analytics-feature-table .head,
+  .analytics-failures .head
+) {
+  color: var(--muted);
+  background: #f0f0ed;
+}
+
+#root :is(.sop-row, .node-row, .log-row, .management-list article) {
+  border-color: var(--grid-line);
+  transition: background-color 150ms linear, opacity 180ms linear,
+    transform 180ms linear;
+}
+
+#root :is(.sop-row, .node-row, .log-row, .management-list article):hover {
+  background: #f8f8f5;
+}
+
+#root .analytics-metrics article {
+  min-height: 84px;
+}
+
+#root .analytics-panel,
+#root .analytics-metrics,
+#root .analytics-toolbar {
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+#root .modal-backdrop,
+#root .side-overlay {
+  background: rgba(20, 20, 18, 0.36);
+  backdrop-filter: blur(3px);
+}
+
+#root :is(.task-modal, .small-dialog, .app-dialog, .side-panel) {
+  border-color: var(--line-dark);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+#root :is(
+  .task-form input,
+  .task-form select,
+  .task-form textarea,
+  .small-dialog input,
+  .filter-fields select,
+  .filter-fields input,
+  .filter-date-grid input,
+  .condition-row input,
+  .condition-row select
+) {
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+#root .login-page {
+  background: #efefec;
+}
+
+#root .login-panel {
+  border-radius: 6px;
+  box-shadow: 0 18px 50px rgba(20, 20, 18, 0.1);
+}
+
+:root[data-theme="dark"] {
+  color: #f2f2ed;
+  background: #10110f;
+  --bg: #171815;
+  --sidebar: #111210;
+  --surface: #1e1f1c;
+  --surface-soft: #272824;
+  --panel: #1e1f1c;
+  --hover: #292a26;
+  --line: #34352f;
+  --line-dark: #45463f;
+  --grid-line: #353630;
+  --text: #f3f3ed;
+  --muted: #b6b6ae;
+  --faint: #85857d;
+  --accent: #c57a5f;
+  --accent-soft: #3b2922;
+  --success: #75ae86;
+  --warning: #d5a24d;
+  --danger: #df7770;
+  --blue: #78a8e4;
+  --shadow: 0 20px 56px rgba(0, 0, 0, 0.42);
+}
+
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] #root .login-page {
+  background: #0d0e0c;
+}
+
+:root[data-theme="dark"] #root .workspace {
+  border-color: #2b2c27;
+}
+
+:root[data-theme="dark"] #root .sidebar {
+  border-right-color: var(--line);
+  background: var(--sidebar);
+}
+
+:root[data-theme="dark"] #root :is(
+  .sidebar-brand b,
+  .primary-nav button,
+  .list-nav button,
+  .sidebar-title,
+  .sidebar-user b,
+  .sidebar-settings-button
+) {
+  color: var(--muted);
+}
+
+:root[data-theme="dark"] #root :is(
+  .primary-nav button.active,
+  .stats-nav.active
+) {
+  color: #111210;
+  background: #f1f1eb;
+  box-shadow: none;
+}
+
+:root[data-theme="dark"] #root :is(
+  .list-nav button.active,
+  .sortable-list.active,
+  .sidebar-settings-button.active
+) {
+  color: var(--text);
+  background: #292a26;
+  box-shadow: inset 2px 0 0 #f1f1eb;
+}
+
+:root[data-theme="dark"] #root :is(
+  .list-system-tabs,
+  .settings-tabs,
+  .calendar-system-page .system-page-tabs,
+  .sop-tabs,
+  .node-tabs
+) button.active {
+  color: #111210;
+  background: #f1f1eb;
+}
+
+:root[data-theme="dark"] #root :is(
+  .database-surface,
+  .quick-add,
+  .task-row,
+  .template-bar,
+  .search-field,
+  .sort-control,
+  .database-footer,
+  .calendar-list-panel,
+  .unscheduled-panel,
+  .analytics-panel,
+  .analytics-toolbar
+) {
+  color: var(--text);
+  background: var(--surface);
+}
+
+:root[data-theme="dark"] #root :is(
+  .task-table-head,
+  .sop-table-head,
+  .node-table-head,
+  .log-table-head,
+  .management-table-head,
+  .analytics-feature-table .head,
+  .analytics-failures .head
+) {
+  color: var(--muted);
+  background: #252621;
+}
+
+:root[data-theme="dark"] #root :is(
+  .task-row:hover,
+  .sop-row:hover,
+  .node-row:hover,
+  .log-row:hover,
+  .management-list article:hover
+) {
+  background: #292a26;
+}
+
+:root[data-theme="dark"] #root .task-row[style*="--row-fill"] {
+  background: color-mix(in srgb, var(--row-fill) 30%, var(--surface));
+}
+
+:root[data-theme="dark"] #root .task-row[style*="--row-fill"]:hover {
+  background: color-mix(in srgb, var(--row-fill) 38%, var(--surface));
+}
+
+:root[data-theme="dark"] #root .task-data-cell[style*="--cell-fill"] {
+  background: color-mix(in srgb, var(--cell-fill) 30%, transparent);
+}
+
+:root[data-theme="dark"] #root .task-row.done {
+  color: #d0d0c8;
+  background: #373934;
+}
+
+:root[data-theme="dark"] #root .task-row.done:hover {
+  background: #40423c;
+}
+
+:root[data-theme="dark"] #root :is(
+  .primary-button,
+  .quick-add button:not(.clipboard-button)
+) {
+  border-color: #f1f1eb;
+  color: #111210;
+  background: #f1f1eb;
+}
+
+:root[data-theme="dark"] #root :is(
+  .toolbar-actions button,
+  .pagination-controls button,
+  .quick-add button.clipboard-button,
+  .template-bar button,
+  .task-form input,
+  .task-form select,
+  .task-form textarea,
+  .filter-fields input,
+  .filter-fields select,
+  .filter-date-grid input,
+  .condition-row input,
+  .condition-row select
+) {
+  color: var(--text);
+  border-color: var(--line-dark);
+  background: #252621;
+}
+
+@media (max-width: 1050px) {
+  #root .workspace {
+    grid-template-columns: 218px minmax(0, 1fr);
+  }
+
+  #root .main-panel {
+    padding-inline: 18px;
+  }
+
+  #root .quick-add {
+    width: min(480px, 42vw);
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1250px) {
+  #root .database-toolbar {
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  #root .database-toolbar .search-field {
+    width: 100%;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  #root .toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 760px) {
+  #root .workspace {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  #root .sidebar {
+    width: min(300px, 84vw);
+    padding-inline: 13px;
+  }
+
+  #root .main-panel {
+    padding: 0 12px 16px;
+  }
+
+  #root .database-toolbar .toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+
+  #root .page-header {
+    min-height: 74px;
+    align-content: center;
+    flex-wrap: wrap;
+    padding-top: 8px;
+  }
+
+  #root .page-header > div:first-of-type {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  #root .page-header > .header-actions {
+    flex: 0 0 auto;
+  }
+
+  #root .page-header > .quick-add {
+    width: 100%;
+    flex: 1 0 100%;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    margin: 7px 0 9px;
+  }
+
+  #root .page-header > .quick-add > svg {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  #root .page-header > .quick-add > textarea {
+    grid-column: 2 / -1;
+    grid-row: 1;
+  }
+
+  #root .page-header > .quick-add > .clipboard-button {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    white-space: nowrap;
+  }
+
+  #root .page-header > .quick-add > button:not(.clipboard-button) {
+    grid-column: 3;
+    grid-row: 2;
+    white-space: nowrap;
+  }
+
+  #root :is(
+    .list-system-tabs,
+    .settings-tabs,
+    .calendar-system-page .system-page-tabs,
+    .sop-tabs,
+    .node-tabs
+  ) {
+    scrollbar-width: none;
+  }
+
+  #root :is(
+    .list-system-tabs,
+    .settings-tabs,
+    .calendar-system-page .system-page-tabs,
+    .sop-tabs,
+    .node-tabs
+  )::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root *,
+#root *::before,
+#root *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

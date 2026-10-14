@@ -1,0 +1,134 @@
+/* 只适配数据库区域；复用 LibrarySurface 的表格、表头和滚动样式。 */
+.okr-preview .library-database-main{height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:0}
+.okr-preview .library-database-main> :not(.database-surface):not(.sop-workspace){flex-shrink:0}
+.okr-preview .library-database-main>.database-surface{margin:8px 18px 12px;flex:1;min-height:0;display:flex;flex-direction:column}
+.okr-preview .library-database-main>.horizontal-list-filter{margin:8px 18px 0;height:48px;min-height:48px;padding:6px 0;box-sizing:border-box}
+.okr-preview .library-database-main .admin-topbar{position:relative;top:auto;min-height:68px;height:auto;padding:10px 24px;box-sizing:border-box}
+.okr-preview .library-database-main .admin-secondary-nav{position:relative;top:auto;height:48px;min-height:48px;padding:0 24px;box-sizing:border-box}
+.okr-preview .library-database-main .admin-secondary-nav-track{height:100%;padding:0;gap:24px;align-items:stretch}
+.okr-preview .library-database-main .admin-secondary-nav button{height:100%;min-height:0;padding:0;border-bottom:2px solid transparent;box-sizing:border-box}
+.okr-preview .library-database-main .admin-secondary-nav button.active{border-bottom-color:var(--wx-brand)}
+.okr-preview .library-database-main .admin-secondary-nav button::after{display:none}
+.okr-preview .library-database-main .admin-system-hero{padding:10px 18px 8px;min-height:0}
+.okr-preview .library-database-main .database-toolbar{padding:12px 16px;gap:10px;min-height:60px;flex-shrink:0}
+.okr-preview .library-database-main .data-toolbar-left{gap:10px;flex:1;min-width:200px}
+.okr-preview .library-database-main .search-field{width:260px;max-width:100%}
+.okr-preview .library-database-main .task-table-shell{flex:1;min-height:0;display:flex;flex-direction:column}
+.okr-preview .wx-library-scroll{max-height:none;scrollbar-gutter:auto}
+.okr-preview .wx-library-grid{width:100%;border:0}
+.okr-preview .wx-library-head{height:42px;min-height:42px;background:var(--wx-soft)}
+.okr-preview .wx-library-head>span{padding-inline:14px;background:var(--wx-soft);color:var(--wx-muted);font-size:12px}
+.okr-preview .wx-library-row{border-color:var(--wx-border)}
+.okr-preview .task-data-cell.wx-library-cell{padding:9px 14px}
+.okr-preview .wx-library-row .task-main-copy strong{font-size:13px;line-height:1.5}
+.okr-preview .library-database-main .admin-table-footer{flex-shrink:0;min-height:46px;padding:6px 16px;border-top:1px solid var(--wx-border);background:var(--wx-surface)}
+.okr-preview .library-database-main .sop-workspace{display:flex;flex-direction:column;flex:1;min-height:0;padding:0;margin:0 18px 12px}
+.okr-preview .library-database-main .sop-content{display:flex;flex-direction:column;flex:1;min-height:0;margin:0;padding:0;overflow:visible}
+.okr-preview .library-database-main .sop-page-band{display:flex;flex-direction:column;flex:1;min-height:0;margin:0;padding:0;border:1px solid var(--wx-border);background:var(--wx-surface);overflow:visible}
+.okr-preview .library-database-main .sop-page-band>.sop-toolbar{padding:12px 16px;flex-shrink:0;gap:10px;min-height:60px;border-bottom:0;background:var(--wx-surface)}
+.okr-preview .library-database-main .sop-toolbar-filters{gap:10px}
+.okr-preview .library-database-main .sop-table-wrap{flex:1;min-height:0;max-height:none;overflow:auto;border:0;border-radius:0}
+.okr-preview .wx-library-row>span{min-width:0;padding:9px 14px;font-size:12px}
+.okr-preview .wx-library-row .sop-execution-title,
+.okr-preview .wx-library-row .sop-title-cell b{font-size:13px;line-height:1.5;font-weight:500}
+.okr-preview .sop-group-row{background:var(--wx-soft);min-height:36px;border-bottom:1px solid var(--wx-border)}
+.okr-preview .library-database-main .sop-footer-tools,
+.okr-preview .library-database-main .sop-page-band>.sop-pager{flex-shrink:0;min-height:46px;padding:6px 16px;border-top:1px solid var(--wx-border)}
+.okr-preview .library-database-main .sop-metrics{margin:0;padding:8px 16px;gap:10px;flex-shrink:0;border-bottom:1px solid var(--wx-border)}
+.okr-preview .library-database-main .sop-metrics article{padding:8px 12px;min-height:0}
+.okr-preview .library-database-main .sop-batch-bar{margin:0;padding:8px 16px;background:var(--wx-brand-soft);border:0;flex-shrink:0}
+.okr-preview .library-database-main .sop-config-split{flex:1;min-height:0;margin:0;display:grid;grid-template-columns:260px minmax(0,1fr);gap:0;border-top:1px solid var(--wx-border)}
+.okr-preview .library-database-main .sop-theme-manager{min-height:0;display:flex;flex-direction:column;border:0;border-right:1px solid var(--wx-border);border-radius:0}
+.okr-preview .library-database-main .sop-theme-manager-list{flex:1;min-height:0;overflow:auto;padding:6px}
+.okr-preview .library-database-main .sop-event-manager{min-width:0;min-height:0;display:flex;flex-direction:column;border:0;border-radius:0}
+.okr-preview .library-database-main .sop-event-manager>header{flex-shrink:0}
+.okr-preview .library-database-main .sop-event-manager-table{position:relative;flex:1;min-height:0;max-height:none;overflow:auto}
+.okr-preview .library-database-main .sop-event-manager-head{position:sticky;top:0;z-index:5}
+.okr-preview .library-database-main .sop-event-manager-head,
+.okr-preview .library-database-main .sop-event-manager-row{grid-template-columns:64px minmax(300px,1fr) 120px 120px 100px 100px;min-width:804px}
+@layer okr-priority{
+ html[data-okr-preview] .okr-preview .library-database-main .sop-page-band{border-radius:8px!important}
+ html[data-okr-preview] .okr-preview .wx-library-head>span{font-size:12px!important}
+ html[data-okr-preview] .okr-preview .wx-library-row .task-main-copy strong{font-size:13px!important}
+}
+@media(max-width:900px){.okr-preview .library-database-main .database-toolbar{flex-wrap:wrap}.okr-preview .library-database-main .sop-config-split{grid-template-columns:200px minmax(0,1fr)}}
+@media(max-width:700px){.okr-preview .library-database-main>.database-surface{margin-inline:10px}.okr-preview .library-database-main .sop-workspace{margin-inline:10px}.okr-preview .library-database-main .sop-toolbar-filters{flex-wrap:wrap}.okr-preview .library-database-main .sop-config-split{grid-template-columns:160px minmax(0,1fr)}}
+
+.okr-preview .wx-library-head>.column-check,
+.okr-preview .wx-library-head>.column-title{position:sticky;z-index:6}
+.okr-preview .library-database-main .sop-page-band>.sop-metrics{flex-shrink:0}
+
+.okr-preview .library-database-main .sop-page-band{gap:0}
+.okr-preview .library-database-main .sop-table-wrap{width:100%;box-sizing:border-box}
+@layer okr-priority{html[data-okr-preview] .okr-preview .library-database-main .sop-content{margin-inline:0!important}}
+
+.okr-preview .library-database-main .sop-toolbar-filters{display:flex;align-items:center;gap:10px;flex:1 1 600px;min-width:0;flex-wrap:wrap}
+.okr-preview .library-database-main .sop-toolbar-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.okr-preview .library-database-main .sop-toolbar-actions>button{flex:0 0 auto;white-space:nowrap;min-height:32px;height:32px;padding:6px 10px;border:1px solid var(--wx-border);border-radius:6px;background:var(--wx-surface)}
+.okr-preview .library-database-main .sop-toolbar-actions>button[aria-pressed=true]{background:var(--wx-brand-soft);color:var(--wx-brand)}
+
+.okr-preview .library-database-main .sop-toolbar-actions>.library-batch-toggle{width:max-content;min-width:max-content;max-width:none}
+/* 与需求库统一：筛选行、列头排序、字号及滚动区域。 */
+.okr-preview .library-database-main {--task-table-font-size:12px;--sop-table-font-size:12px}
+.okr-preview .library-database-main .database-toolbar {flex-wrap:wrap;align-items:center}
+.okr-preview .library-database-main .library-filters {display:flex;align-items:center;flex-wrap:wrap;gap:10px;width:100%;flex:1 1 100%;min-width:0}
+.okr-preview .library-database-main .library-filters>.search-field,
+.okr-preview .library-database-main .library-filters>.sop-search {flex:1;min-width:200px;width:240px;margin:0}
+.okr-preview .library-database-main .library-filters>.okr-select-field,
+.okr-preview .library-database-main .library-filters>.sop-theme-select {flex:0 0 150px;width:150px;min-width:0}
+.okr-preview .library-database-main .library-filters>.okr-select-field .wx-select {width:100%;min-width:0}
+.okr-preview .library-database-main .library-filters>.wx-button {flex:0 0 auto;white-space:nowrap;height:40px;padding:9px 12px}
+.okr-preview .library-database-main .library-date-filter {display:flex;align-items:center;gap:7px;font-size:12px;color:var(--wx-muted);flex:0 0 auto}
+.okr-preview .library-database-main .library-date-filter>.wx-input {width:142px;min-width:0;height:40px;padding:9px 12px;font-size:14px}
+.okr-preview .library-database-main .library-filters :is(.search-field,.sop-search){position:relative;display:block;height:40px;min-height:40px;padding:0;box-sizing:border-box}
+.okr-preview .library-database-main .library-filters :is(.search-field,.sop-search)>svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);pointer-events:none}
+.okr-preview .library-database-main .library-filters :is(input:not([type=checkbox]),.wx-select){height:40px;min-height:40px;padding:9px 12px;box-sizing:border-box}
+.okr-preview .library-database-main .library-filters :is(.search-field,.sop-search) input{width:100%;min-width:0;height:100%;min-height:0;padding:9px 12px 9px 38px;border:0;background:transparent}
+.okr-preview .library-database-main .database-toolbar>.toolbar-actions {width:100%;justify-content:flex-end;gap:8px;margin:0}
+/* 任务筛选与操作共用一行；窄屏按控件自然换行，不预留整行操作区。 */
+.okr-preview .task-database-main .admin-data-toolbar {padding:10px 16px;gap:8px;min-height:60px}
+.okr-preview .task-database-main .admin-data-toolbar>.library-filters {display:contents}
+.okr-preview .task-database-main .admin-data-toolbar .library-filters>.search-field {flex:0 0 240px;width:240px;min-width:200px}
+.okr-preview .task-database-main .admin-data-toolbar>.toolbar-actions {flex:0 0 auto;width:auto;max-width:100%;margin-left:auto}
+.okr-preview .library-database-main .sop-pending-toolbar {flex-wrap:wrap}
+.okr-preview .library-database-main .sop-toolbar-actions {width:100%;justify-content:flex-end}
+.okr-preview .library-database-main .sop-toolbar-actions>.okr-select-field {width:150px;min-width:0;margin-right:auto}
+.okr-preview .library-database-main .library-sort {display:flex;align-items:center;justify-content:flex-start;gap:7px;width:auto;max-width:100%;min-width:0;min-height:0;height:auto;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:inherit;font:inherit;text-align:left;cursor:pointer;white-space:nowrap}
+.okr-preview .library-database-main .library-sort>span {overflow:hidden;text-overflow:ellipsis}
+.okr-preview .library-database-main .library-sort svg {flex-shrink:0}
+.okr-preview .library-database-main .library-sort:focus-visible {outline:2px solid var(--wx-brand);outline-offset:3px}
+.okr-preview .library-database-main .library-sort:disabled {opacity:.55;cursor:default}
+.okr-preview .library-database-main [aria-sort=ascending]>.library-sort,
+.okr-preview .library-database-main [aria-sort=descending]>.library-sort {color:var(--wx-brand)}
+.okr-preview .wx-library-head {position:sticky;top:0;z-index:5;flex-shrink:0}
+/* 正文冻结列的层级为 6，整行表头必须始终盖在冻结列之上。 */
+.okr-preview .library-database-main .task-table-head.wx-library-head {z-index:10}
+.okr-preview .wx-library-head>span {min-height:42px;height:42px;line-height:18px}
+.okr-preview .wx-library-row>span,
+.okr-preview .wx-library-row .task-data-cell {line-height:1.5;font-size:12px}
+.okr-preview .wx-library-row .task-data-cell :is(time,code,.truncate) {font-size:12px}
+.okr-preview .wx-library-row .task-main-copy strong,
+.okr-preview .wx-library-row .sop-title-cell b {font-size:13px;line-height:1.5}
+@layer okr-priority {
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-row {font-size:12px!important}
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-row .task-data-cell {font-size:12px!important}
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-row .sop-title-cell b {font-size:13px!important;font-weight:500!important}
+ /* 旧版 release-1.10.5 对所有 span 强制加粗，须同步覆盖实际文字节点。 */
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-head :is(.library-sort,span) {font-size:12px!important;font-weight:500!important;line-height:18px!important}
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-row :where(span,small,time,code,a,em) {font-weight:400!important}
+ html[data-okr-preview] .okr-preview .library-database-main .wx-library-row .task-data-cell {font-weight:400!important}
+ html[data-okr-preview] .okr-preview .library-database-main .library-filters :is(input,button,select) {font-size:14px!important;line-height:20px!important}
+ html[data-okr-preview] .okr-preview .library-database-main .library-filters :where(span) {font-weight:400!important}
+ html[data-okr-preview] .okr-preview .library-database-main :is(.admin-topbar,.admin-secondary-nav,.horizontal-list-filter) {font-weight:400!important}
+ html[data-okr-preview] .okr-preview .library-database-main :is(.admin-topbar,.admin-secondary-nav,.horizontal-list-filter) :where(span,em) {font-weight:400!important}
+ html[data-okr-preview] .okr-preview .library-database-main :is(.admin-breadcrumbs b,.admin-secondary-nav button.active span,.horizontal-list-rail button.active span) {font-weight:500!important}
+ html[data-okr-preview] .okr-preview .library-database-main .sop-pending-toolbar {display:flex!important;flex-wrap:wrap!important}
+}
+@media(max-width:700px){.okr-preview .library-database-main .library-filters>.okr-select-field{flex:1 1 115px}.okr-preview .library-database-main .library-date-filter{flex-wrap:wrap}.okr-preview .library-database-main .database-toolbar>.toolbar-actions{flex-wrap:wrap}}
+.okr-preview .library-database-main .sop-toolbar-actions>.sop-column-menu{margin-left:0}
+.okr-preview .library-database-main .sop-table-row{font-weight:400;border-top:0}
+.okr-preview .library-database-main .sop-table-row .sop-note-copy a{font-weight:400}
+.okr-preview .library-database-main .sop-group-row{height:36px;min-height:36px;padding:0 14px;box-sizing:border-box;border-top:0}
+.okr-preview .library-database-main .sop-group-row .sop-group-toggle{min-height:32px;height:32px;padding:0;font-size:12px;font-weight:500}
+@layer okr-priority {html[data-okr-preview] .okr-preview .library-database-main .sop-table-row>span{font-weight:400!important}}
+.okr-preview .library-database-main .sop-page-band>.sop-toolbar.library-filters{flex:0 0 auto;box-sizing:border-box}

@@ -1,0 +1,1646 @@
+/* Life Task 1.16.2 — fixed database workspace, unified surfaces and smooth task completion. */
+
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"] {
+  --font-ui: "Inter Variable", "Noto Sans SC Variable", "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-code: "JetBrains Mono Variable", "SFMono-Regular", Consolas, ui-monospace, monospace;
+  --secondary-nav-height: 46px;
+  --ui-row-height: 52px;
+  --ui-control-height: 36px;
+}
+
+body,
+.workspace,
+.workspace :where(button, input, select, textarea, output, label, legend, p, span, small, time, a, li, td, th, em, b, strong, h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-ui) !important;
+  font-synthesis: none;
+}
+
+.workspace :where(button, input, select, textarea, output, label, legend, p, span, time, a, li, td, th, em) {
+  font-weight: 500;
+}
+
+.workspace :where(button, input, select, textarea, output, legend) { font-weight: 500 !important; }
+.workspace :where(.primary-button, .admin-primary-nav-button.active, .admin-secondary-nav button.active, .admin-secondary-nav button[aria-current="page"]) { font-weight: 600 !important; }
+
+.workspace :where(small) { font-weight: 400; }
+.workspace :where(h1, h2, h3, h4, h5, h6) { font-weight: 700 !important; }
+.workspace :where(b, strong) { font-weight: 600 !important; }
+.workspace :where(.sidebar-brand b, .sidebar-profile b, .admin-hero-summary b, .sop-metrics strong) { font-weight: 700 !important; }
+.workspace :where(code, kbd, .data-cell-mono, .task-row code, .title-meta code) {
+  font-family: var(--font-code) !important;
+  font-weight: 500;
+}
+
+/* Primary-only sidebar. */
+.admin-sidebar-nav {
+  padding: 10px 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.admin-sidebar-nav .admin-primary-nav-button {
+  min-height: 40px;
+  margin: 0;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--t-muted);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.admin-sidebar-nav .admin-primary-nav-button:hover {
+  color: var(--t-base);
+  background: var(--bg-hover);
+}
+
+.admin-sidebar-nav .admin-primary-nav-button.active {
+  color: var(--primary);
+  background: var(--primary-soft);
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+.admin-sidebar-nav .admin-primary-nav-button > span {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-nav-pages,
+.admin-nav-group-button > svg:last-child:not(:first-child),
+.admin-document-tree-slot {
+  display: none !important;
+}
+
+.sidebar-collapsed .admin-sidebar-nav .admin-primary-nav-button {
+  justify-content: center;
+  padding-inline: 0;
+}
+
+/* Shared top secondary navigation. */
+.admin-secondary-nav {
+  position: sticky;
+  top: var(--topbar-height, 60px);
+  z-index: 29;
+  width: 100%;
+  height: var(--secondary-nav-height);
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-card) 94%, transparent);
+  backdrop-filter: blur(10px) saturate(130%);
+}
+
+.admin-secondary-nav-track {
+  height: 100%;
+  padding: 0 32px;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.admin-secondary-nav-track::-webkit-scrollbar { display: none; }
+
+.admin-secondary-nav button {
+  position: relative;
+  min-width: max-content;
+  min-height: 45px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--t-muted);
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.admin-secondary-nav button:hover {
+  color: var(--t-base);
+  background: var(--bg-hover);
+}
+
+.admin-secondary-nav button.active,
+.admin-secondary-nav button[aria-current="page"] {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.admin-secondary-nav button.active span,
+.admin-secondary-nav button[aria-current="page"] span,
+.admin-primary-nav-button.active span { font-weight: 600 !important; }
+
+.admin-secondary-nav button.active::after,
+.admin-secondary-nav button[aria-current="page"]::after {
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  left: 10px;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--primary);
+  content: "";
+}
+
+/* Module tabs now live in the global secondary bar. */
+.list-system-tabs,
+.system-page-tabs,
+.sop-tabs,
+.settings-tabs {
+  display: none !important;
+}
+
+.list-system-content,
+.sop-content {
+  margin-top: 12px !important;
+  margin-inline: 32px !important;
+}
+
+/* Compact task page stack. */
+.admin-page-hero,
+.admin-page-hero.admin-system-hero {
+  min-height: 56px;
+  padding: 8px 32px 0;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-page-hero .admin-eyebrow { display: none; }
+
+.admin-page-hero h1,
+.admin-page-hero.admin-system-hero h1 {
+  margin: 0 0 2px;
+  font-size: clamp(22px, 2vw, 25px);
+  font-weight: 700 !important;
+  line-height: 1.15;
+  letter-spacing: -.022em;
+}
+
+.admin-page-hero p,
+.admin-page-hero.admin-system-hero p {
+  max-width: 760px;
+  margin: 0;
+  overflow: hidden;
+  color: var(--t-muted);
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-hero-summary {
+  min-width: 104px;
+  min-height: 42px;
+  padding: 6px 10px;
+  grid-template-columns: auto auto;
+  gap: 1px 5px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-hero-summary span { font-size: 9.5px; }
+.admin-hero-summary b { font-family: var(--font-ui) !important; font-size: 20px; font-weight: 700; }
+
+#root .horizontal-list-filter {
+  min-height: 52px;
+  margin: 8px 32px 0;
+  border-radius: 9px;
+  box-shadow: var(--shadow-sm);
+}
+
+#root .horizontal-list-label { min-height: 50px; }
+#root .horizontal-list-rail-shell {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 30px;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+#root .horizontal-list-rail {
+  width: 100%;
+  padding: 7px 4px;
+  overscroll-behavior-inline: contain;
+  scroll-behavior: smooth;
+}
+
+#root .horizontal-list-rail:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--primary) 58%, transparent);
+  outline-offset: -3px;
+}
+
+#root .horizontal-list-scroll-button {
+  position: relative;
+  z-index: 2;
+  width: 30px;
+  min-width: 30px;
+  min-height: 50px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  color: var(--t-muted);
+  background: var(--bg-card);
+  box-shadow: none;
+}
+
+#root .horizontal-list-scroll-button.previous {
+  border-right: 1px solid var(--border-soft);
+}
+
+#root .horizontal-list-scroll-button.next {
+  border-left: 1px solid var(--border-soft);
+}
+
+#root .horizontal-list-scroll-button:not(:disabled):hover,
+#root .horizontal-list-scroll-button:not(:disabled):focus-visible {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+#root .horizontal-list-scroll-button:disabled {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#root .horizontal-list-rail > button { height: 36px; font-size: 12px; font-weight: 500; }
+#root .horizontal-list-actions { padding-block: 7px; }
+
+/* 1.15.1: compact task database toolbar with every command visible. */
+#root .admin-data-grid .admin-data-toolbar {
+  min-height: 62px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+#root .admin-data-grid .data-toolbar-left {
+  width: min(430px, 40vw);
+  min-width: 340px;
+  flex: 0 1 430px;
+  gap: 8px;
+}
+
+#root .admin-data-grid .search-field {
+  height: 42px;
+  min-height: 42px;
+  max-width: 340px;
+  flex-basis: 280px;
+}
+
+#root .admin-data-grid .data-filter-button {
+  height: 42px;
+  min-height: 42px;
+  align-self: center;
+  padding-inline: 12px;
+  border-radius: 10px;
+}
+
+#root .admin-data-grid .toolbar-actions {
+  min-width: 0;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+#root .admin-data-grid .toolbar-actions > button {
+  min-height: 38px;
+  padding-inline: 10px;
+}
+
+#root .admin-data-grid .sort-control {
+  flex: 0 0 auto;
+}
+
+.database-surface,
+#root .database-surface.admin-data-grid {
+  margin: 10px 32px 24px;
+  border-radius: 10px !important;
+}
+
+#root .database-surface.admin-data-grid {
+  --data-body-size: max(13px, var(--task-table-font-size, 13px));
+  --data-title-size: max(14px, calc(var(--task-table-font-size, 13px) + 1px));
+  container-name: task-data-grid;
+  container-type: inline-size;
+}
+
+#root .admin-data-grid .task-table-head {
+  min-height: 44px;
+  font-family: var(--font-ui) !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#root .admin-data-grid .task-table-head .column-head,
+#root .admin-data-grid .task-table-head .column-head > span,
+.sop-table-head > span,
+.calendar-db-head > span { font-weight: 600 !important; }
+
+#root .admin-data-grid .task-table-head > span,
+#root .admin-data-grid .task-row > .task-data-cell {
+  border-right: 1px solid var(--border-soft);
+}
+
+#root .admin-data-grid .task-table-head > span:last-child,
+#root .admin-data-grid .task-row > .task-data-cell:last-child {
+  border-right: 0;
+}
+
+#root .admin-data-grid .task-row {
+  min-height: var(--ui-row-height);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#root .admin-data-grid .title-cell strong {
+  font-family: var(--font-ui) !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#root .admin-data-grid .title-meta small {
+  font-size: 11.5px;
+  font-weight: 400;
+}
+
+#root .admin-data-grid .title-meta code { font-size: 11px; }
+
+#root .admin-data-grid .column-head {
+  overflow: visible;
+}
+
+#root .admin-data-grid .column-resizer {
+  position: absolute;
+  top: 0;
+  right: -6px;
+  z-index: 14;
+  width: 12px;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline-offset: -2px;
+  background: transparent;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+#root .admin-data-grid .column-resizer::after {
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 5px;
+  width: 2px;
+  border-radius: 999px;
+  background: transparent;
+  content: "";
+}
+
+#root .admin-data-grid .column-head:hover .column-resizer::after,
+#root .admin-data-grid .column-resizer:hover::after,
+#root .admin-data-grid .column-resizer:focus-visible::after {
+  background: var(--primary);
+}
+
+#root .admin-data-grid .column-resizer:disabled {
+  cursor: not-allowed;
+  opacity: .32;
+}
+
+/* SOP tables use the same Adminator density and typography. */
+.sop-content { min-width: 0; }
+
+.sop-page-band {
+  padding: 0;
+  background: transparent;
+}
+
+.sop-toolbar {
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--bg-card);
+}
+
+.sop-toolbar :where(button, input, select, label) {
+  min-height: 36px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sop-table-wrap {
+  max-height: calc(100vh - 248px);
+  border-color: var(--border);
+  border-radius: 0 0 8px 8px;
+  background: var(--bg-card);
+}
+
+.sop-table {
+  color: var(--t-muted);
+  background: var(--bg-card);
+  font-family: var(--font-ui) !important;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sop-table-head {
+  min-height: 44px;
+  color: var(--t-light);
+  background: color-mix(in srgb, var(--bg-muted) 46%, var(--bg-card));
+  font-family: var(--font-ui) !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.sop-table-head > span,
+.sop-table-row > span { padding: 8px 12px; border-right-color: var(--border-soft); }
+
+.sop-table-row {
+  min-height: 52px;
+  color: var(--t-muted);
+  border-top-color: var(--border-soft);
+  background: var(--bg-card);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.sop-table-row:hover { background: var(--bg-hover); }
+
+.sop-title-cell b {
+  font-family: var(--font-ui) !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sop-title-cell small,
+.sop-table-row > span > small {
+  color: var(--t-light);
+  font-size: 11.5px;
+  font-weight: 400;
+}
+
+.sop-theme-chip,
+.sop-status,
+.sop-priority,
+.sop-switch-label {
+  min-height: 24px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.sop-status::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.sop-source-cell { font-size: 11.5px; }
+.sop-metrics span { font-size: 11.5px; font-weight: 500; }
+.sop-metrics strong { font-family: var(--font-ui) !important; font-weight: 700; }
+
+/* Document tree belongs to the document workspace, not the global sidebar. */
+.document-center {
+  height: calc(100dvh - 174px);
+  min-height: 520px;
+  margin: 12px 32px 24px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.document-inline-sidebar {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-muted) 44%, var(--bg-card));
+}
+
+.document-inline-sidebar .document-sidebar-content {
+  height: 100%;
+  padding-top: 8px;
+}
+
+.document-center > .document-workspace {
+  min-width: 0;
+  grid-column: 2;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Adminator Calendar source structure. */
+.calendar-system-content { min-height: 0; }
+
+.calendar-admin-page {
+  min-width: 0;
+  padding-bottom: 28px;
+}
+
+.calendar-admin-hero {
+  min-height: 104px;
+  margin: 0 32px 16px;
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.calendar-admin-hero > div:first-child > span {
+  color: var(--t-light);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+}
+
+.calendar-admin-hero h1 {
+  margin: 5px 0 5px;
+  font-family: var(--font-ui) !important;
+  font-size: clamp(27px, 2.6vw, 32px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+
+.calendar-admin-hero p { margin: 0; color: var(--t-muted); font-size: 13px; font-weight: 400; }
+.calendar-admin-hero p b { margin-right: 4px; color: var(--success); font-weight: 600; }
+
+.calendar-admin-hero > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-admin-hero button,
+.cal-toolbar button {
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: var(--t-base);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg-card);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.calendar-admin-hero .primary-button,
+.cal-toolbar .primary-button {
+  color: #fff;
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.cal-shell {
+  position: relative;
+  min-width: 0;
+  margin: 0 32px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+}
+
+.cal-rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cal-quickadd {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  border: 0;
+  border-radius: 9px;
+  background: var(--primary);
+  box-shadow: 0 4px 10px -5px var(--primary-ring);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cal-rail-card,
+.cal-main {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.cal-rail-card {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cal-rail-head {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cal-rail-head > b,
+.cal-rail-head > span {
+  color: var(--t-base);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cal-rail-head > span { color: var(--t-light); font-size: 10px; }
+.cal-rail-head > div { display: flex; gap: 3px; }
+.cal-rail-head button { width: 26px; height: 26px; padding: 0; display: grid; place-items: center; color: var(--t-muted); border: 0; border-radius: 6px; background: transparent; }
+.cal-rail-head button:hover { color: var(--t-base); background: var(--bg-hover); }
+
+.cal-mini-weekdays,
+.cal-mini-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+
+.cal-mini-weekdays span {
+  padding: 4px 0 5px;
+  color: var(--t-light);
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.cal-mini-days button {
+  position: relative;
+  aspect-ratio: 1;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--t-base);
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cal-mini-days button:hover { background: var(--bg-hover); }
+.cal-mini-days button.outside { color: var(--t-light); }
+.cal-mini-days button.today,
+.cal-mini-days button.selected { color: #fff; background: var(--primary); font-weight: 700; }
+.cal-mini-days button.has-events::after { position: absolute; bottom: 3px; left: 50%; width: 3px; height: 3px; border-radius: 50%; background: var(--primary); transform: translateX(-50%); content: ""; }
+.cal-mini-days button:is(.today, .selected).has-events::after { background: #fff; }
+
+.cal-list { display: flex; flex-direction: column; gap: 2px; }
+
+.cal-list-item {
+  min-height: 34px;
+  padding: 5px 6px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.cal-list-item:hover { background: var(--bg-hover); }
+.cal-list-item > input { position: absolute; opacity: 0; pointer-events: none; }
+.cal-list-check { position: relative; width: 14px; height: 14px; flex: 0 0 14px; border: 1.5px solid currentColor; border-radius: 4px; background: currentColor; }
+.cal-list-check::after { position: absolute; top: 1px; left: 4px; width: 3px; height: 7px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); content: ""; }
+.cal-list-check.is-off { background: transparent; }
+.cal-list-check.is-off::after { display: none; }
+.cal-list-name { min-width: 0; flex: 1; overflow: hidden; color: var(--t-base); font-size: 12.5px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.cal-list-item.is-off .cal-list-name { color: var(--t-light); }
+.cal-list-count { color: var(--t-light); font-size: 10px; }
+
+.cal-upcoming-list { display: flex; flex-direction: column; }
+.cal-upcoming-list > p { margin: 8px 0; color: var(--t-muted); font-size: 11.5px; text-align: center; }
+
+.cal-upcoming-item {
+  min-height: 58px;
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--t-base);
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+  background: transparent;
+  text-align: left;
+}
+
+.cal-upcoming-item:first-child { border-top: 0; }
+.cal-upcoming-date { min-height: 42px; display: grid; place-items: center; align-content: center; border-radius: 7px; background: var(--bg-muted); }
+.cal-upcoming-date b { font-size: 16px; line-height: 1; }
+.cal-upcoming-date small { margin-top: 3px; color: var(--t-light); font-size: 9px; }
+.cal-upcoming-item > span:last-child { min-width: 0; display: grid; gap: 4px; }
+.cal-upcoming-item > span:last-child > b { overflow: hidden; font-size: 12.5px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.cal-upcoming-item > span:last-child > small { overflow: hidden; color: var(--t-muted); font-size: 10.5px; text-overflow: ellipsis; white-space: nowrap; }
+.cal-upcoming-item small i { width: 6px; height: 6px; margin-right: 5px; display: inline-block; border-radius: 50%; }
+
+.cal-main {
+  min-width: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 64px var(--calendar-view-height, 720px) 10px;
+}
+
+.cal-toolbar {
+  min-width: 0;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto minmax(220px, 1fr);
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.cal-toolbar-left,
+.cal-toolbar-right,
+.cal-nav,
+.cal-views {
+  display: flex;
+  align-items: center;
+}
+
+.cal-toolbar-left { min-width: 0; gap: 12px; }
+.cal-toolbar-left h2 { min-width: 0; margin: 0; overflow: hidden; font-size: 20px; font-weight: 700; letter-spacing: -.02em; text-overflow: ellipsis; white-space: nowrap; }
+.cal-nav { gap: 4px; }
+.cal-nav button { min-width: 32px; min-height: 32px; height: 32px; padding: 0 9px; }
+.cal-toolbar-right { justify-content: flex-end; gap: 7px; }
+
+.cal-views {
+  padding: 3px;
+  gap: 2px;
+  border-radius: 8px;
+  background: var(--bg-muted);
+}
+
+.cal-views button { min-height: 30px; padding: 0 11px; color: var(--t-muted); border: 0; border-radius: 6px; background: transparent; }
+.cal-views button:hover { color: var(--t-base); }
+.cal-views button.active { color: var(--t-base); background: var(--bg-card); box-shadow: var(--shadow-sm); }
+
+.cal-canvas {
+  position: relative;
+  min-width: 0;
+  height: var(--calendar-view-height, 720px);
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-card);
+
+  --fc-classic-background: var(--bg-card);
+  --fc-classic-foreground: var(--t-base);
+  --fc-classic-muted: var(--bg-muted);
+  --fc-classic-muted-foreground: var(--t-muted);
+  --fc-classic-faint: var(--bg-hover);
+  --fc-classic-faint-foreground: var(--t-light);
+  --fc-classic-strong: var(--bg-hover);
+  --fc-classic-stronger: var(--bg-muted);
+  --fc-classic-strongest: var(--t-base);
+  --fc-classic-border: var(--border);
+  --fc-classic-strong-border: var(--border);
+  --fc-classic-border-style: solid;
+  --fc-classic-primary: var(--primary);
+  --fc-classic-primary-foreground: #fff;
+  --fc-classic-ring-color: var(--primary-ring);
+  --fc-classic-today: var(--primary-soft);
+  --fc-classic-now: var(--danger);
+  --fc-classic-highlight: var(--primary-soft);
+  --fc-classic-button: var(--bg-muted);
+  --fc-classic-button-border: var(--border);
+  --fc-classic-button-foreground: var(--t-base);
+  --fc-classic-button-strong: var(--primary);
+  --fc-classic-button-strong-border: var(--primary);
+  --fc-classic-button-outline: var(--primary-ring);
+  --fc-classic-event: var(--primary-soft);
+  --fc-classic-event-contrast: var(--primary);
+  --fc-classic-background-event: var(--success);
+}
+
+.cal-canvas > div,
+.cal-canvas .fc { height: 100%; font-family: var(--font-ui) !important; font-size: 13px; }
+
+.fc-dow { color: var(--t-light); font-family: var(--font-ui) !important; font-size: 11px; font-weight: 600; letter-spacing: .04em; }
+
+.cal-event-content {
+  min-width: 0;
+  padding: 2px 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  font-family: var(--font-ui) !important;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.cal-event-content time { flex: 0 0 auto; font-size: 10px; font-weight: 600; }
+.cal-event-content span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cal-shell .calendar-drawer-scrim { position: absolute; inset: 0; z-index: 27; border: 0; background: rgb(15 23 42 / .18); backdrop-filter: blur(1px); }
+.cal-shell .unscheduled-panel { position: absolute; z-index: 28; top: 0; right: 0; bottom: 0; width: 340px; height: auto; overflow-y: auto; border: 0; border-left: 1px solid var(--border); border-radius: 0 10px 10px 0; background: var(--bg-card); box-shadow: -12px 0 28px rgb(15 23 42 / .12); }
+
+.calendar-resize-handle { height: 10px; background: var(--bg-card); }
+
+/* Calendar database secondary pages use the same PC data surface. */
+.calendar-database-page,
+.calendar-management {
+  margin: 12px 32px 28px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.calendar-db-toolbar,
+.section-command-bar {
+  min-height: 54px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+.calendar-db-head {
+  min-height: 44px;
+  color: var(--t-light);
+  background: color-mix(in srgb, var(--bg-muted) 48%, var(--bg-card));
+  font-family: var(--font-ui) !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.calendar-db-row {
+  min-height: 52px;
+  color: var(--t-muted);
+  border-color: var(--border-soft);
+  background: var(--bg-card);
+  font-family: var(--font-ui) !important;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.calendar-db-row:hover { background: var(--bg-hover); }
+.calendar-db-row b { color: var(--t-base); font-size: 14px; font-weight: 600; }
+
+.calendar-management-grid { padding: 16px; }
+
+@container task-data-grid (max-width: 1160px) {
+  #root .admin-data-grid .admin-data-toolbar {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  #root .admin-data-grid .data-toolbar-left {
+    width: 100%;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  #root .admin-data-grid .search-field {
+    max-width: 420px;
+  }
+
+  #root .admin-data-grid .toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+    overflow-x: visible;
+  }
+}
+
+@media (max-width: 1280px) {
+  #root .admin-data-grid .admin-data-toolbar {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  #root .admin-data-grid .data-toolbar-left {
+    width: 100%;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  #root .admin-data-grid .toolbar-actions {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1180px) {
+  .cal-shell { grid-template-columns: 240px minmax(0, 1fr); gap: 14px; }
+  .cal-toolbar { grid-template-columns: minmax(210px, 1fr) auto; }
+  .cal-views { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
+  .cal-main { grid-template-rows: 104px var(--calendar-view-height, 720px) 10px; }
+}
+
+@media (max-width: 880px) {
+  .admin-secondary-nav-track { padding-inline: 18px; }
+  .admin-page-hero,
+.admin-page-hero.admin-system-hero { padding-inline: 18px; }
+  #root .horizontal-list-filter,
+.database-surface,
+#root .database-surface.admin-data-grid { margin-inline: 18px; }
+  .list-system-content,
+.sop-content { margin-inline: 18px !important; }
+  .document-center { margin-inline: 18px; grid-template-columns: 220px minmax(0, 1fr); }
+  .calendar-admin-hero,
+.cal-shell,
+.calendar-database-page,
+.calendar-management { margin-inline: 18px; }
+  .cal-shell { grid-template-columns: 220px minmax(480px, 1fr); overflow-x: auto; }
+}
+
+@media (max-width: 720px) {
+  :root { --secondary-nav-height: 48px; }
+  .admin-secondary-nav { top: 58px; }
+  .admin-secondary-nav-track { padding-inline: 10px; }
+  .admin-secondary-nav button { min-height: 47px; padding-inline: 10px; font-size: 12px; }
+  .admin-page-hero,
+.admin-page-hero.admin-system-hero { min-height: 58px; padding: 8px 14px 0; }
+  .admin-page-hero h1,
+.admin-page-hero.admin-system-hero h1 { font-size: 21px; }
+  .admin-page-hero p,
+.admin-page-hero.admin-system-hero p { max-width: 260px; }
+  .admin-hero-summary { min-width: 86px; }
+  #root .horizontal-list-filter { margin: 8px 14px 0; }
+  .database-surface,
+#root .database-surface.admin-data-grid { margin: 8px 14px 20px; }
+  .list-system-content,
+.sop-content { margin-inline: 14px !important; }
+  .sop-toolbar { align-items: stretch; flex-direction: column; }
+  .sop-table-wrap { max-height: calc(100vh - 270px); }
+  .document-center { height: calc(100dvh - 172px); margin: 10px 14px 20px; grid-template-columns: 1fr; grid-template-rows: minmax(150px, 32vh) minmax(0, 1fr); }
+  .document-inline-sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+  .document-center > .document-workspace { grid-column: 1; grid-row: 2; }
+  .calendar-admin-hero { min-height: 104px; margin: 0 14px 12px; padding-top: 12px; align-items: flex-start; flex-direction: column; gap: 10px; }
+  .calendar-admin-hero h1 { font-size: 25px; }
+  .calendar-admin-hero > div:last-child { width: 100%; }
+  .calendar-admin-hero > div:last-child button { flex: 1; }
+  .cal-shell { margin-inline: 14px; display: flex; flex-direction: column; overflow: visible; }
+  .cal-main { order: 1; }
+  .cal-rail { order: 2; margin-top: 12px; gap: 10px; }
+  .cal-quickadd { display: none; }
+  .cal-rail-card { padding: 12px; }
+  .cal-main { margin-top: 0; grid-template-rows: auto var(--calendar-view-height, 620px); }
+  .cal-toolbar { padding: 9px; display: flex; align-items: stretch; flex-direction: column; }
+  .cal-toolbar-left,
+.cal-toolbar-right { width: 100%; }
+  .cal-toolbar-left h2 { flex: 1; }
+  .cal-toolbar-right { overflow-x: auto; justify-content: flex-start; }
+  .cal-views { width: 100%; justify-content: stretch; }
+  .cal-views button { flex: 1; }
+  .cal-canvas { min-width: 0; }
+  .cal-shell .calendar-drawer-scrim { position: fixed; z-index: 48; }
+  .cal-shell .unscheduled-panel { position: fixed; z-index: 49; top: auto; right: 0; bottom: 0; left: 0; width: auto; max-height: 78vh; border-left: 0; border-top: 1px solid var(--border); border-radius: 14px 14px 0 0; }
+  .calendar-database-page,
+.calendar-management { margin: 10px 14px 20px; overflow-x: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-secondary-nav *,
+.calendar-admin-page *,
+.sop-workspace *,
+.document-center * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* Life Task 1.16.0 — fixed database workspace and unified secondary surfaces. */
+.brand-mark,
+.admin-brand-mark {
+  border: 1px solid color-mix(in srgb, #fff 22%, transparent);
+  border-radius: 10px;
+  background: var(--primary) !important;
+  box-shadow: 0 7px 18px -9px color-mix(in srgb, var(--primary) 80%, transparent) !important;
+}
+
+.task-logo-glyph {
+  width: 22px;
+  height: 22px;
+  overflow: visible;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.task-logo-glyph circle { fill: #fff; stroke: none; }
+.task-logo-glyph .task-logo-check { stroke-width: 2.55; }
+
+.admin-secondary-nav {
+  width: auto;
+  height: 46px;
+  margin: 8px 32px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: none;
+}
+
+.admin-secondary-nav-track {
+  padding: 4px 6px;
+  gap: 2px;
+}
+
+.admin-secondary-nav button {
+  min-height: 36px;
+  padding-inline: 11px;
+  border-radius: 6px;
+}
+
+.admin-secondary-nav button:hover { background: var(--bg-hover); }
+
+.admin-secondary-nav button.active,
+.admin-secondary-nav button[aria-current="page"] {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.admin-secondary-nav button.active::after,
+.admin-secondary-nav button[aria-current="page"]::after { display: none; }
+
+.workspace:has(.task-database-main) {
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.task-database-main {
+  height: 100vh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.task-database-main > :is(.admin-topbar, .admin-secondary-nav, .horizontal-list-filter) {
+  flex: 0 0 auto;
+}
+
+.task-database-main > .horizontal-list-filter,
+.task-database-main > .database-surface.admin-data-grid {
+  width: auto;
+  margin-inline: 32px;
+}
+
+.task-database-main > .horizontal-list-filter { margin-top: 8px; }
+
+.task-database-main > .database-surface.admin-data-grid {
+  min-height: 0;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 9px !important;
+}
+
+.task-database-main .admin-data-toolbar,
+.task-database-main .batch-action-bar { flex: 0 0 auto; }
+
+.task-database-main .task-table-shell {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.task-database-main .task-table-shell > .table-scroll {
+  height: 100%;
+  max-height: none !important;
+  overscroll-behavior: contain;
+}
+
+.task-database-main .admin-table-footer { display: none !important; }
+
+.toolbar-pagination {
+  min-height: 38px;
+  padding-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  color: var(--t-light);
+  border-left: 1px solid var(--border-soft);
+  font-size: 10.5px;
+  white-space: nowrap;
+}
+
+.toolbar-pagination > .pagination-controls {
+  min-height: 34px !important;
+  gap: 3px !important;
+}
+
+.toolbar-pagination .pagination-controls button {
+  width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+}
+
+.completion-column-label {
+  color: var(--t-light);
+  font-size: 10.5px;
+  font-weight: 600 !important;
+}
+
+#root .admin-data-grid .task-check,
+#root .sop-pending-page .task-check {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 1.5px solid color-mix(in srgb, var(--t-light) 70%, var(--border));
+  border-radius: 5px;
+  background: var(--bg-card);
+}
+
+#root .admin-data-grid .task-check.completion-check:hover,
+#root .sop-pending-page .task-check.completion-check:hover {
+  border-color: var(--success);
+  background: color-mix(in srgb, var(--success) 8%, var(--bg-card));
+}
+
+#root .admin-data-grid .task-check.completion-check:active:not(:disabled),
+#root .sop-pending-page .task-check.completion-check:active:not(:disabled) {
+  transform: scale(.82);
+}
+
+#root .admin-data-grid .task-check.completion-check.is-pending,
+#root .sop-pending-page .task-check.completion-check.is-pending {
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 72%, var(--border));
+  background: color-mix(in srgb, var(--success) 9%, var(--bg-card));
+  cursor: wait;
+  opacity: 1;
+}
+
+.completion-spinner { animation: completion-spinner-turn 560ms linear infinite; }
+
+#root .admin-data-grid .task-check.completion-check.checked,
+#root .sop-pending-page .task-check.completion-check.checked {
+  color: #fff;
+  border-color: var(--success);
+  background: var(--success);
+}
+
+#root .admin-data-grid .task-check.completion-check .completion-checkmark,
+#root .sop-pending-page .task-check.completion-check .completion-checkmark {
+  transform-origin: center;
+  animation: task-completion-check-in 180ms cubic-bezier(.2, .9, .25, 1.25) both;
+}
+
+#root .admin-data-grid .task-row,
+#root .sop-pending-page .sop-table-row {
+  position: relative;
+}
+
+#root .admin-data-grid .task-row.completion-exit,
+#root .sop-pending-page .sop-table-row.completion-exit {
+  pointer-events: none;
+  animation: task-row-extract 220ms linear forwards;
+  will-change: transform, opacity;
+}
+
+#root .admin-data-grid .task-row.completion-exit::after,
+#root .sop-pending-page .sop-table-row.completion-exit::after {
+  content: "";
+  position: absolute;
+  z-index: 18;
+  top: 50%;
+  left: 12px;
+  right: 12px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--success) 8%, var(--success) 92%, transparent);
+  box-shadow: 0 0 7px color-mix(in srgb, var(--success) 34%, transparent);
+  opacity: .9;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: task-completion-line 150ms linear forwards;
+}
+
+#root .admin-data-grid .task-check.batch-check.checked {
+  color: #fff;
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.completion-particle-burst {
+  position: fixed;
+  z-index: 2147483000;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.completion-particle-burst > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.completion-burst-ring {
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+  border: 2px solid color-mix(in srgb, var(--success) 78%, #fff);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(.45);
+  will-change: transform, opacity;
+}
+
+.completion-burst-check {
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border-radius: 7px;
+  background: var(--success);
+  box-shadow: 0 7px 18px -7px color-mix(in srgb, var(--success) 82%, transparent);
+  opacity: 0;
+  transform: scale(.2) rotate(-10deg);
+  will-change: transform, opacity;
+}
+
+.completion-burst-check::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.completion-particle {
+  width: var(--particle-size);
+  height: var(--particle-size);
+  margin-left: var(--particle-origin-x);
+  margin-top: var(--particle-origin-y);
+  display: block;
+  border-radius: var(--particle-radius);
+  background: var(--particle-color);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--particle-color) 42%, transparent);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.2);
+  will-change: transform, opacity;
+}
+
+.completion-particle-burst.is-running .completion-burst-ring {
+  animation: completion-ring-expand 360ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.completion-particle-burst.is-running .completion-burst-check {
+  animation: completion-check-pop 280ms cubic-bezier(.16, 1.25, .35, 1) 20ms forwards;
+}
+
+.completion-particle-burst.is-running .completion-particle {
+  animation: completion-pixel-shatter var(--particle-duration) cubic-bezier(.14, .76, .28, 1) var(--particle-delay) forwards;
+}
+
+@keyframes completion-spinner-turn { to { transform: rotate(360deg); } }
+
+@keyframes task-completion-check-in {
+  0% { transform: scale(.55); opacity: .25; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes task-completion-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes task-row-extract {
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to { opacity: 0; transform: translate3d(42px, 0, 0); }
+}
+
+@keyframes completion-ring-expand {
+  0% { opacity: 0; transform: scale(.4); }
+  18% { opacity: .95; }
+  100% { opacity: 0; transform: scale(2.25); }
+}
+
+@keyframes completion-check-pop {
+  0% { opacity: 0; transform: scale(.2) rotate(-10deg); }
+  42% { opacity: 1; transform: scale(1.16) rotate(2deg); }
+  72% { opacity: 1; transform: scale(.94) rotate(0); }
+  100% { opacity: 0; transform: scale(.72) rotate(0); }
+}
+
+@keyframes completion-pixel-shatter {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.18) rotate(0); }
+  9% { opacity: 1; transform: translate(-50%, -50%) scale(1.18) rotate(0); }
+  46% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--particle-x)), calc(-50% + var(--particle-y))) scale(.12) rotate(var(--particle-rotate));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .completion-particle-burst { display: none !important; }
+  .completion-spinner { animation-duration: 1ms !important; }
+  #root .admin-data-grid .task-row.completion-exit,
+#root .sop-pending-page .sop-table-row.completion-exit {
+    animation: task-row-reduced-exit 70ms linear forwards;
+    transform: none;
+  }
+  #root .admin-data-grid .task-row.completion-exit::after,
+#root .sop-pending-page .sop-table-row.completion-exit::after { display: none; }
+  #root .admin-data-grid .task-check.completion-check .completion-checkmark,
+#root .sop-pending-page .task-check.completion-check .completion-checkmark {
+    animation: none;
+  }
+}
+
+@keyframes task-row-reduced-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.editable-cell { cursor: pointer !important; }
+
+.editable-cell:hover {
+  background: color-mix(in srgb, var(--primary-soft) 72%, transparent) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+.modal-backdrop,
+.side-overlay.centered {
+  background: rgb(15 23 42 / .34);
+  backdrop-filter: blur(5px);
+}
+
+.small-dialog {
+  color: var(--t-base);
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  background: var(--bg-card) !important;
+  box-shadow: 0 24px 64px rgb(15 23 42 / .22) !important;
+}
+
+.small-dialog > header {
+  min-height: 68px;
+  padding: 14px 18px;
+  border-bottom-color: var(--border-soft);
+}
+
+.small-dialog > header h2 { font-size: 18px; font-weight: 700 !important; }
+.small-dialog > header span { color: var(--t-light); font-size: 10.5px; font-weight: 500 !important; }
+
+.small-dialog > footer {
+  min-height: 64px;
+  padding: 12px 18px;
+  border-top-color: var(--border-soft);
+  background: var(--bg-muted);
+}
+
+.column-dialog { width: min(680px, calc(100vw - 32px)); }
+
+.column-options {
+  max-height: min(540px, calc(100vh - 180px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 16px 18px;
+}
+
+.column-options label {
+  min-height: 46px;
+  padding: 0 12px;
+  gap: 10px;
+  border-color: var(--border);
+  border-radius: 8px;
+  color: var(--t-base);
+  background: var(--bg-card);
+  font-size: 12.5px;
+  font-weight: 500 !important;
+}
+
+.column-options label:hover { border-color: var(--primary-light); background: var(--primary-soft); }
+
+.column-options input {
+  width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  margin: 0;
+  flex: 0 0 16px;
+  accent-color: var(--primary);
+}
+
+.column-options label > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.template-dialog { width: min(560px, calc(100vw - 32px)); }
+
+.template-dialog-content {
+  min-height: 210px;
+  max-height: min(520px, calc(100vh - 190px));
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.template-card {
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+}
+
+.template-card:hover { border-color: var(--primary-light); background: var(--primary-soft); }
+.template-card > button:first-child { min-width: 0; display: grid; gap: 4px; padding: 0; color: var(--t-base); border: 0; background: transparent; text-align: left; }
+.template-card > button:first-child > span { min-width: 0; display: flex; align-items: center; gap: 8px; }
+.template-card b { overflow: hidden; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.template-card small { color: var(--t-light); font-size: 10.5px; }
+
+.panel-empty {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  color: var(--t-light);
+  text-align: center;
+}
+.panel-empty b { color: var(--t-base); font-size: 14px; }
+.panel-empty span { font-size: 11.5px; }
+
+.group-dialog,
+.filter-builder-dialog { width: min(660px, calc(100vw - 32px)); }
+.fill-dialog { width: min(880px, calc(100vw - 32px)); }
+
+.context-menu {
+  width: 238px;
+  padding: 7px;
+  border: 1px solid var(--border) !important;
+  border-radius: 11px !important;
+  color: var(--t-base);
+  background: var(--bg-card) !important;
+  box-shadow: 0 18px 46px rgb(15 23 42 / .22) !important;
+}
+
+.context-menu > button,
+.context-menu-section button {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 7px;
+  color: var(--t-base);
+  font-size: 12.5px;
+  font-weight: 500 !important;
+}
+
+.context-menu > button:hover,
+.context-menu-section button:hover { color: var(--primary); background: var(--primary-soft); }
+
+.context-menu-section {
+  margin-block: 5px;
+  padding: 5px 0;
+  border-color: var(--border-soft);
+}
+
+.context-menu-section > span {
+  padding: 5px 10px 7px;
+  color: var(--t-light);
+  font-size: 10px;
+  font-weight: 600 !important;
+  letter-spacing: .04em;
+}
+
+.inline-option-editor,
+.inline-tag-editor {
+  z-index: 30;
+  border: 1px solid var(--border) !important;
+  border-radius: 9px;
+  background: var(--bg-card);
+  box-shadow: 0 16px 36px rgb(15 23 42 / .18);
+}
+
+/* Calendar secondary pages were previously collapsed by a 100% height grid row. */
+.calendar-system-page {
+  display: block !important;
+  min-height: 0;
+  margin: 0 !important;
+  overflow: visible;
+}
+
+.calendar-system-content {
+  min-height: 0;
+  margin-inline: 0 !important;
+  overflow: visible;
+}
+
+.calendar-database-page,
+.calendar-management {
+  height: calc(100vh - 148px) !important;
+  min-height: 560px;
+  margin: 12px 32px 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+}
+
+.calendar-db-toolbar,
+.section-command-bar { flex: 0 0 auto; }
+
+.calendar-database-page > .calendar-db {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.calendar-database-page > footer {
+  min-height: 52px;
+  padding: 8px 12px;
+  flex: 0 0 auto;
+  border-top: 1px solid var(--border-soft);
+  background: var(--bg-card);
+}
+
+.calendar-management-grid {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.series-db .table-state.empty { min-height: 180px; }
+
+@media (max-width: 720px) {
+  .admin-secondary-nav { margin: 6px 10px 0; }
+  .admin-secondary-nav-track { padding-inline: 4px; }
+  .task-database-main > .horizontal-list-filter,
+.task-database-main > .database-surface.admin-data-grid { margin-inline: 10px; }
+  .toolbar-pagination > span { display: none; }
+  .column-options { grid-template-columns: 1fr; }
+  .calendar-database-page,
+.calendar-management { height: calc(100dvh - 132px) !important; min-height: 480px; margin: 8px 10px 12px; }
+}

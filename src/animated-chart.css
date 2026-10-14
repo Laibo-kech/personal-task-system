@@ -1,0 +1,63 @@
+.animated-chart {
+  position: relative;
+  width: 100%;
+  min-height: 160px;
+}
+
+.animated-chart canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.pie-chart-canvas {
+  position: relative;
+  min-width: 220px;
+}
+
+.pie-chart-canvas > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.pie-chart-canvas > span strong {
+  color: var(--text, #172033);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.pie-chart-canvas > span small {
+  margin-top: 5px;
+  color: var(--muted, #718096);
+  font-size: 10px;
+}
+
+.area-chart .animated-chart {
+  width: 100%;
+  min-height: 220px;
+}
+
+.heatmap-grid > i:not(.heat-placeholder) {
+  animation: chart-cell-in 320ms both ease-out;
+}
+
+.heatmap-grid > i:nth-child(5n + 1) { animation-delay: 35ms; }
+.heatmap-grid > i:nth-child(5n + 2) { animation-delay: 70ms; }
+.heatmap-grid > i:nth-child(5n + 3) { animation-delay: 105ms; }
+.heatmap-grid > i:nth-child(5n + 4) { animation-delay: 140ms; }
+
+@keyframes chart-cell-in {
+  from { opacity: 0; transform: scale(.82); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-chart,
+.animated-chart canvas,
+.heatmap-grid > i { animation: none !important; transition: none !important; }
+}
